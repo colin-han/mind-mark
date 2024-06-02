@@ -13,7 +13,7 @@ class MindMarkParserTest {
         MMModel model = parser.parse("Hello, World!");
         assertNotNull(model);
         assertEquals(1, model.getNodeCount());
-        assertEquals(0, model.getDirectives().size());
+        assertEquals(0, model.getDirectiveCount());
         assertEquals(0, model.getNode(0).getChildCount());
     }
 
@@ -23,7 +23,7 @@ class MindMarkParserTest {
         MMModel model = parser.parse("Hello, World!\n\nThis is a test.");
         assertNotNull(model);
         assertEquals(2, model.getNodeCount());
-        assertEquals(0, model.getDirectives().size());
+        assertEquals(0, model.getDirectiveCount());
         assertEquals(0, model.getNode(0).getChildCount());
         assertEquals(0, model.getNode(1).getChildCount());
     }
@@ -34,7 +34,7 @@ class MindMarkParserTest {
         MMModel model = parser.parse("Hello, World!\n\n# This is a comment.");
         assertNotNull(model);
         assertEquals(1, model.getNodeCount());
-        assertEquals(0, model.getDirectives().size());
+        assertEquals(0, model.getDirectiveCount());
         assertEquals(0, model.getNode(0).getChildCount());
     }
 
@@ -49,7 +49,7 @@ class MindMarkParserTest {
                 This is another test.""");
         assertNotNull(model);
         assertEquals(3, model.getNodeCount());
-        assertEquals(0, model.getDirectives().size());
+        assertEquals(0, model.getDirectiveCount());
         assertEquals(0, model.getNode(0).getChildCount());
         assertEquals(1, model.getNode(1).getChildCount());
     }
@@ -65,7 +65,7 @@ class MindMarkParserTest {
                   This is a child.""");
         assertNotNull(model);
         assertEquals(2, model.getNodeCount());
-        assertEquals(1, model.getDirectives().size());
+        assertEquals(1, model.getDirectiveCount());
         assertEquals(0, model.getNode(0).getChildCount());
         assertEquals(1, model.getNode(1).getChildCount());
     }

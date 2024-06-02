@@ -40,4 +40,12 @@ public class MMModel {
     public int getNodeCount() {
         return getNodes().size();
     }
+
+    public MMDirective getDirective(int index) {
+        return directives.get(index);
+    }
+
+    public int getDirectiveCount() {
+        return directives.size();
+    }
 }
