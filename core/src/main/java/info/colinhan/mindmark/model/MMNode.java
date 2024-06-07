@@ -1,6 +1,7 @@
 package info.colinhan.mindmark.model;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,8 @@ public class MMNode {
     private final List<MMDirective> directives = new ArrayList<>();
     private final List<String> assignees = new ArrayList<>();
     private final List<MMNode> children = new ArrayList<>();
+    @Setter
+    private String num;
 
     public MMNode(int indent, String title) {
         this(indent, title, null);
@@ -71,5 +74,12 @@ public class MMNode {
 
     public MMTag getTag(int index) {
         return this.tags.get(index);
+    }
+
+    public String getText() {
+        if (this.num == null || this.num.isEmpty()) {
+            return this.title;
+        }
+        return this.num + " " + this.title;
     }
 }

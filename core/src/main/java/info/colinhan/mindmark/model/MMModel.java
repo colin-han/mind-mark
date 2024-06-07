@@ -8,13 +8,16 @@ import java.util.List;
 
 @Getter
 public class MMModel {
+    private final String name;
     private final List<MMDirective> directives = new ArrayList<>();
     private final List<MMNode> nodes = new ArrayList<>();
 
-    public MMModel() {
+    public MMModel(String name) {
+        this.name = name;
     }
 
-    public MMModel(Collection<MMNode> nodes, Collection<MMDirective> directives) {
+    public MMModel(String name, Collection<MMNode> nodes, Collection<MMDirective> directives) {
+        this(name);
         this.nodes.addAll(nodes);
         this.directives.addAll(directives);
     }

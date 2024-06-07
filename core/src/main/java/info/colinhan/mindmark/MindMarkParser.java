@@ -10,13 +10,13 @@ import java.util.regex.Pattern;
 
 public class MindMarkParser {
     private static final Pattern INDENT_PATTERN = Pattern.compile("^(\\s*)(.*)$");
-    private static final Pattern DIRECTIVE_PATTERN = Pattern.compile("^@(\\w+)\\s+(.*)$");
+    private static final Pattern DIRECTIVE_PATTERN = Pattern.compile("^\\s*@(\\w+)\\s+(.*)$");
     private static final Pattern NODE_ADDITIONS_PATTERN = Pattern.compile("(@[^@#&]*)|(#([^@#&]*))|(&([^@#&]*))");
     private final Stack<MMNode> stack = new Stack<>();
     private final MMNode rootNode = new MMNode(-1, "Root");
     private MMNode currentNode = rootNode;
 
-    public MMModel parse(String text) {
+    public MMModel parse(String name, String text) {
         var lines = text.split("[\r\n]+");
         for (String line : lines) {
             if (isComments(line)) {
@@ -29,7 +29,7 @@ public class MindMarkParser {
                 processForNode(line);
             }
         }
-        return new MMModel(rootNode.getChildren(), rootNode.getDirectives());
+        return new MMModel(name, rootNode.getChildren(), rootNode.getDirectives());
     }
 
     private void processForDirective(String line) {
@@ -42,7 +42,7 @@ public class MindMarkParser {
     }
 
     private boolean isDirective(String line) {
-        return line.startsWith("@");
+        return line.matches("^\\s*@.*$");
     }
 
     private void processForNode(String line) {
