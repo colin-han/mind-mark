@@ -4,13 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 @Getter
 public class MMNode {
     private final int indent;
     private final String title;
     private final List<MMTag> tags = new ArrayList<>();
+
     private MMEstimation estimation;
     private final List<MMDirective> directives = new ArrayList<>();
     private final List<String> assignees = new ArrayList<>();
@@ -81,5 +84,26 @@ public class MMNode {
             return this.title;
         }
         return this.num + " " + this.title;
+    }
+
+    static List<MMNode> findDescendant(Function<MMNode, Boolean> filter, List<MMNode> nodes) {
+        List<MMNode> result = new ArrayList<>();
+        for (MMNode n : nodes) {
+            Boolean filterResult = filter.apply(n);
+            if (filterResult == null) {
+                result.addAll(findDescendant(filter, n.getChildren()));
+            } else if (filterResult) {
+                result.add(n);
+            }
+        }
+        return result;
+    }
+
+    public List<MMNode> findDescendant(String nodeTitle) {
+        return findDescendant(n -> n.getTitle().equals(nodeTitle) ? true : null);
+    }
+
+    public List<MMNode> findDescendant(Function<MMNode, Boolean> filter) {
+        return MMNode.findDescendant(filter, this.children);
     }
 }

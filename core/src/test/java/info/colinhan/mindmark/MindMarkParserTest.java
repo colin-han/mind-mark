@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MindMarkParserTest {
     @Test
     void parse_single_node() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", "Hello, World!");
+        MMModel model = MindMarkParser.parseModel("Root", "Hello, World!");
         assertNotNull(model);
         assertEquals(1, model.getNodeCount());
         assertEquals(0, model.getDirectiveCount());
@@ -20,8 +19,7 @@ class MindMarkParserTest {
 
     @Test
     void parse_multiple_node() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 Hello, World!
 
                 This is a test.""");
@@ -34,8 +32,7 @@ class MindMarkParserTest {
 
     @Test
     void parse_comments() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 Hello, World!
 
                 # This is a comment.""");
@@ -47,8 +44,7 @@ class MindMarkParserTest {
 
     @Test
     void parse_tree() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 Hello, World!
                 This is a test.
                   This is a child.
@@ -63,8 +59,7 @@ class MindMarkParserTest {
 
     @Test
     void support_directives() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 @enable AutoNumber
                 
                 Hello, World!
@@ -79,8 +74,7 @@ class MindMarkParserTest {
 
     @Test
     void support_tags() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 Hello, World! #tag1
                 This is a test. #tag2 #tag3
                   This is a child. #tag4""");
@@ -95,8 +89,7 @@ class MindMarkParserTest {
 
     @Test
     void support_assignee() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 Hello, World! @Alice
                 This is a test. @Bob @Lily
                   This is a child. @Charlie""");
@@ -111,8 +104,7 @@ class MindMarkParserTest {
 
     @Test
     void support_estimation() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 Hello, World! &1h
                 This is a test. &2d
                   This is a child. &3w""");
@@ -125,8 +117,7 @@ class MindMarkParserTest {
 
     @Test
     void support_directive_in_node() {
-        MindMarkParser parser = new MindMarkParser();
-        MMModel model = parser.parse("Root", """
+        MMModel model = MindMarkParser.parseModel("Root", """
                 Hello, World! &1h
                 This is a test. &2d
                   @enable AutoNumber

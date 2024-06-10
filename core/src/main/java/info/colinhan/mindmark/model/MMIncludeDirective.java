@@ -24,4 +24,8 @@ public class MMIncludeDirective extends MMDirective {
 
         return new MMIncludeDirective(matcher.group(1), matcher.group(2));
     }
+
+    public boolean isMatchFilter(MMNode node) {
+        return node.getTags().stream().anyMatch(t -> t.getName().equals(filter.substring(1)));
+    }
 }

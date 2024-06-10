@@ -16,6 +16,11 @@ public class MindMarkParser {
     private final MMNode rootNode = new MMNode(-1, "Root");
     private MMNode currentNode = rootNode;
 
+    public static MMModel parseModel(String name, String text) {
+        var parser = new MindMarkParser();
+        return parser.parse(name, text);
+    }
+
     public MMModel parse(String name, String text) {
         var lines = text.split("[\r\n]+");
         for (String line : lines) {

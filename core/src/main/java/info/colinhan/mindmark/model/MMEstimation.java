@@ -39,6 +39,10 @@ public class MMEstimation {
         return new MMEstimation(MMEstimationUnit.WEEK, weeks);
     }
 
+    public static MMEstimation zero() {
+        return new MMEstimation(MMEstimationUnit.HOUR, 0);
+    }
+
     public double getHours() {
         return this.unit.toHours(this.value);
     }
@@ -68,5 +72,9 @@ public class MMEstimation {
             return estimation1.getHours() == getHours();
         }
         return super.equals(obj);
+    }
+
+    public boolean isZero() {
+        return this.value == 0;
     }
 }

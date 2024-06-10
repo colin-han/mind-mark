@@ -1,41 +1,24 @@
 package info.colinhan.mindmark.processor;
 
-import info.colinhan.mindmark.model.MMDirective;
-import info.colinhan.mindmark.model.MMEnableDirective;
-import info.colinhan.mindmark.model.MMModel;
-import info.colinhan.mindmark.model.MMNode;
+import info.colinhan.mindmark.model.*;
 
-import java.util.List;
-
-public class AutoNumberProcessor {
-    private boolean findAutoNumberToggle(List<MMDirective> directives) {
-        return directives.stream().anyMatch(d -> {
-            if (d instanceof MMEnableDirective enableDirective) {
-                return enableDirective.getToggles().stream().anyMatch(
-                        t -> t.getName().equalsIgnoreCase("AutoNumber")
-                );
-            }
-            return false;
-        });
-    }
-    public void process(MMModel model) {
-        boolean autoNumber = findAutoNumberToggle(model.getDirectives());
-        List<MMNode> nodes = model.getNodes();
-        for (int i = 0; i < nodes.size(); i++) {
-            MMNode n = nodes.get(i);
-            processNode(n, autoNumber, autoNumber ? (i + 1) + "." : "");
-        }
+public class AutoNumberProcessor extends ToggleProcessor<String> {
+    public static void applyTo(MMModel model) {
+        new AutoNumberProcessor().process(model);
     }
 
-    private void processNode(MMNode node, boolean autoNumber, String num) {
-        if (!autoNumber) {
-            autoNumber = findAutoNumberToggle(node.getDirectives());
-        } else {
-            node.setNum(num);
-        }
+    @Override
+    protected String calcNewValue(boolean toggle, String currentValue, int i) {
+        return toggle ? currentValue + (i + 1) + "." : "";
+    }
 
-        for (int i = 0; i < node.getChildCount(); i++) {
-            processNode(node.getChild(i), autoNumber, autoNumber ? num + (i + 1) + "." : "");
-        }
+    @Override
+    protected void applyToggle(MMNode node, String currentValue) {
+        node.setNum(currentValue);
+    }
+
+    @Override
+    protected boolean isToggle(MMToggle t) {
+        return t.getName().equalsIgnoreCase("AutoNumber");
     }
 }

@@ -20,6 +20,17 @@ class EstimationCalculatorTest {
     }
 
     @Test
+    void two_days_add_three_days() {
+        assertEquals(
+                MMEstimation.week(1),
+                EstimationCalculator.add(
+                        MMEstimation.day(2),
+                        MMEstimation.day(3)
+                )
+        );
+    }
+
+    @Test
     void one_day_add_one_hour() {
         assertEquals(
                 MMEstimation.hour(9),

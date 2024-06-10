@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 public enum MMEstimationUnit {
     HOUR("hour", "hours", "h", 1),
     DAY("day", "days", "d", 8),
-    WEEK("week", "weeks", "w", 56);
+    WEEK("week", "weeks", "w", 40);
 
     private final String name;
     private final String plural;

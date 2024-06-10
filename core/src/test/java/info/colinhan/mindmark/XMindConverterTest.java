@@ -1,18 +1,18 @@
 package info.colinhan.mindmark;
 
+import info.colinhan.mindmark.model.MMNode;
 import info.colinhan.mindmark.processor.AutoNumberProcessor;
+import info.colinhan.mindmark.processor.IncludeProcessor;
+import info.colinhan.mindmark.processor.SumEstimationProcessor;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class XMindConverterTest {
 
     @Test
     void test_basic_usage() {
-        var parser = new MindMarkParser();
-        var model = parser.parse("Root", """
+        var model = MindMarkParser.parseModel("Root", """
               @style #TechResearch fill:#f9f,stroke:#333,stroke-width:4px,color:#333
               @macro #M?=max(/M#(\\d+)/g)
               
@@ -24,6 +24,9 @@ class XMindConverterTest {
                 Epic B #M?
                   Story B.1 #M2 &1w
                   Story B.2 #M3 &1d
+                Epic C #M1
+                  Story C.1 &1d
+                  Story C.2 &1d
               Tech Research Tasks
                 @include Cards(#TechResearch)
               Tech Design Cards
@@ -35,8 +38,9 @@ class XMindConverterTest {
                   @include Cards(#M2)
                 M3 实现更多的功能
                   @include Cards(#M3)""");
-        var processor = new AutoNumberProcessor();
-        processor.process(model);
+        AutoNumberProcessor.applyTo(model);
+        SumEstimationProcessor.applyTo(model);
+        IncludeProcessor.applyTo(model);
         var converter = new XMindConverter();
         converter.convert(model, Path.of("./tmp"));
     }

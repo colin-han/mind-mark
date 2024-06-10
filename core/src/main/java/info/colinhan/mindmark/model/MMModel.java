@@ -5,6 +5,7 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Function;
 
 @Getter
 public class MMModel {
@@ -51,4 +52,13 @@ public class MMModel {
     public int getDirectiveCount() {
         return directives.size();
     }
+
+    public List<MMNode> findDescendant(String nodeTitle) {
+        return findDescendant(n -> n.getTitle().equals(nodeTitle) ? true : null);
+    }
+
+    public List<MMNode> findDescendant(Function<MMNode, Boolean> filter) {
+        return MMNode.findDescendant(filter, nodes);
+    }
+
 }
