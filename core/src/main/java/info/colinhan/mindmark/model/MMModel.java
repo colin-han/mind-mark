@@ -1,5 +1,6 @@
 package info.colinhan.mindmark.model;
 
+import info.colinhan.mindmark.processor.ModelTraveller;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -61,4 +62,7 @@ public class MMModel {
         return MMNode.findDescendant(filter, nodes);
     }
 
+    public void accept(ModelTraveller traveller) {
+        MMNode.travel(nodes, traveller);
+    }
 }

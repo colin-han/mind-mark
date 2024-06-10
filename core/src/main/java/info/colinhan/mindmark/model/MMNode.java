@@ -1,10 +1,10 @@
 package info.colinhan.mindmark.model;
 
+import info.colinhan.mindmark.processor.ModelTraveller;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 
@@ -20,6 +20,8 @@ public class MMNode {
     private final List<MMNode> children = new ArrayList<>();
     @Setter
     private String num;
+    @Setter
+    private String className;
 
     public MMNode(int indent, String title) {
         this(indent, title, null);
@@ -105,5 +107,19 @@ public class MMNode {
 
     public List<MMNode> findDescendant(Function<MMNode, Boolean> filter) {
         return MMNode.findDescendant(filter, this.children);
+    }
+
+    public void accept(ModelTraveller traveller) {
+        if (traveller.visit(this)) {
+            travel(this.children, traveller);
+        }
+    }
+
+    public static void travel(List<MMNode> nodes, ModelTraveller traveller) {
+        for (MMNode node : nodes) {
+            if (traveller.visit(node)) {
+                travel(node.getChildren(), traveller);
+            }
+        }
     }
 }
