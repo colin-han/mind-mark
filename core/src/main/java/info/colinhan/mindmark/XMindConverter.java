@@ -133,13 +133,13 @@ public class XMindConverter {
         }
         JSONArray labels = new JSONArray();
         if (node.getEstimation() != null) {
-            labels.put("⏱" + node.getEstimation());
+            labels.put("⏱ " + node.getEstimation());
         }
         node.getAssignees().forEach(
                 a -> labels.put("🙍‍" + a)
         );
         node.getTags().forEach(
-                t -> labels.put("🏷" + t)
+                t -> labels.put("🏷 " + t)
         );
         if (!labels.isEmpty()) {
             child.put("labels", labels);
