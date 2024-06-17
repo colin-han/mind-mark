@@ -105,9 +105,9 @@ class MindMarkParserTest {
     @Test
     void support_estimation() {
         MMModel model = MindMarkParser.parseModel("Root", """
-                Hello, World! &1h
+                Hello, World! & 1 hours
                 This is a test. &2d
-                  This is a child. &3w""");
+                  This is a child. &3 w""");
         assertNotNull(model);
         assertEquals(2, model.getNodeCount());
         assertEquals(MMEstimation.hour(1), model.getNode(0).getEstimation());

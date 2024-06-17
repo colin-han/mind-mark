@@ -34,4 +34,14 @@ class MMEstimationTest {
         assertEquals("1 day 2 hours", MMEstimation.day(1.25).toString());
         assertEquals("1 day 0.1 hours", MMEstimation.hour(8.1).toString());
     }
+
+    @Test
+    void parse() {
+        assertEquals(MMEstimation.day(3), MMEstimation.parse("3d"));
+        assertEquals(MMEstimation.day(3), MMEstimation.parse("3day"));
+        assertEquals(MMEstimation.day(3), MMEstimation.parse("3days"));
+        assertEquals(MMEstimation.day(3), MMEstimation.parse("3 d"));
+        assertEquals(MMEstimation.day(3), MMEstimation.parse("3 day"));
+        assertEquals(MMEstimation.day(3), MMEstimation.parse("3  days"));
+    }
 }
