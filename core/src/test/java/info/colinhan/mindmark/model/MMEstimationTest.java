@@ -43,5 +43,6 @@ class MMEstimationTest {
         assertEquals(MMEstimation.day(3), MMEstimation.parse("3 d"));
         assertEquals(MMEstimation.day(3), MMEstimation.parse("3 day"));
         assertEquals(MMEstimation.day(3), MMEstimation.parse("3  days"));
+        assertEquals(MMEstimation.hour(3), MMEstimation.parse("3H"));
     }
 }

@@ -8,7 +8,10 @@ import java.util.regex.Pattern;
 
 @Getter
 public class MMEstimation {
-    private static final Pattern PATTERN = Pattern.compile("(\\d+(?:\\.\\d+)?)\\s*(h|d|w|hours?|days?|weeks?)");
+    private static final Pattern PATTERN = Pattern.compile(
+            "(\\d+(?:\\.\\d+)?)\\s*(h|d|w|hours?|days?|weeks?)",
+            Pattern.CASE_INSENSITIVE
+    );
     private final MMEstimationUnit unit;
     private final double value;
 
