@@ -20,4 +20,10 @@ class MMToggleTest {
         assertEquals(1, toggle.getParameters().size());
         assertEquals("1", toggle.getParameters().get(0));
     }
+
+    @Test
+    void parse_multiple_parameters() {
+        var toggle = MMToggle.parse("Estimation(atEndOfTitle fixedDays \"︴ ⏰ (%s)\")");
+        assertEquals(3, toggle.getParameters().size());
+    }
 }
