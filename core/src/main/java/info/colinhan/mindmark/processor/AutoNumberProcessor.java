@@ -14,7 +14,7 @@ public class AutoNumberProcessor extends ToggleProcessor<String> {
 
     @Override
     protected void applyToggle(MMNode node, String currentValue) {
-        node.setNum(currentValue);
+        node.withTitlePrefix(currentValue);
     }
 
     @Override

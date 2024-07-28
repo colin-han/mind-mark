@@ -34,12 +34,13 @@ class AutoNumberProcessorTest {
                     @include Cards(#M3)""");
         var processor = new AutoNumberProcessor();
         processor.process(model);
-        assertNull(model.getNode(0).getNum());
-        assertEquals("1.", model.getNode(0).getChild(0).getNum());
-        assertEquals("1.1.", model.getNode(0).getChild(0).getChild(0).getNum());
-        assertEquals("1.2.", model.getNode(0).getChild(0).getChild(1).getNum());
-        assertEquals("2.", model.getNode(0).getChild(1).getNum());
-        assertEquals("2.1.", model.getNode(0).getChild(1).getChild(0).getNum());
-        assertEquals("2.2.", model.getNode(0).getChild(1).getChild(1).getNum());
+        assertEquals("Cards", model.getNode(0).getText());
+        assertEquals("1. Epic A", model.getNode(0).getChild(0).getText());
+        assertEquals("1.1. Story A.1", model.getNode(0).getChild(0).getChild(0).getText());
+        assertEquals("1.2. Story A.2", model.getNode(0).getChild(0).getChild(1).getText());
+        assertEquals("2. Epic B", model.getNode(0).getChild(1).getText());
+        assertEquals("2.1. Story B.1", model.getNode(0).getChild(1).getChild(0).getText());
+        assertEquals("2.2. Story B.2", model.getNode(0).getChild(1).getChild(1).getText());
+        assertEquals("Tech Research Tasks", model.getNode(1).getText());
     }
 }
