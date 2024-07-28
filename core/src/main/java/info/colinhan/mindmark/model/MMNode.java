@@ -24,6 +24,8 @@ public class MMNode implements MMBase {
     private String titlePostfix = "";
     @Setter
     private String className;
+    @Setter
+    private MMNode parent;
 
     public MMNode(int indent, String title) {
         this(indent, title, null);

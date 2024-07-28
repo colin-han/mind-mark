@@ -54,12 +54,15 @@ public class MindMarkParser {
         MMNode mmNode = parseNode(line);
         if (mmNode.getIndent() > currentNode.getIndent()) {
             currentNode.getChildren().add(mmNode);
+            mmNode.setParent(currentNode);
             stack.push(currentNode);
         } else {
             while (stack.peek().getIndent() >= mmNode.getIndent()) {
                 currentNode = stack.pop();
             }
-            stack.peek().getChildren().add(mmNode);
+            MMNode parent = stack.peek();
+            parent.getChildren().add(mmNode);
+            mmNode.setParent(parent);
         }
         currentNode = mmNode;
     }

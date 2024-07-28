@@ -126,4 +126,15 @@ class MindMarkParserTest {
         assertEquals(1, model.getNode(1).getChildCount());
         assertEquals("This is a child.", model.getNode(1).getChild(0).getTitle());
     }
+
+    @Test
+    void support_parent_relation() {
+        MMModel model = MindMarkParser.parseModel("Root", """
+                Hello, World! &1h
+                This is a test. &2d
+                  @enable AutoNumber
+                  This is a child. &3w""");
+        assertNotNull(model);
+        assertEquals(model.getNode(1), model.getNode(1).getChild(0).getParent());
+    }
 }

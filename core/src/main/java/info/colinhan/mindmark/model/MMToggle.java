@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 @Getter
 public class MMToggle implements MMBase {
