@@ -1,15 +1,17 @@
 package info.colinhan.mindmark.model;
 
 import info.colinhan.mindmark.processor.ModelTraveller;
+import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 @Getter
-public class MMNode {
+public class MMNode implements MMBase {
     private final int indent;
     private final String title;
     private final List<MMTag> tags = new ArrayList<>();
@@ -121,5 +123,20 @@ public class MMNode {
                 travel(node.getChildren(), traveller);
             }
         }
+    }
+
+    @Override
+    public <T> T accept(ModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public List<? extends MMBase> children() {
+        return Stream.of(
+                tags.stream(),
+                Stream.of(estimation),
+                directives.stream(),
+                children.stream()
+        ).flatMap(s -> s).toList();
     }
 }

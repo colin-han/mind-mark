@@ -1,4 +1,4 @@
 package info.colinhan.mindmark.model;
 
-public class MMStatementNode {
+public abstract class MMStatementNode implements MMBase {
 }

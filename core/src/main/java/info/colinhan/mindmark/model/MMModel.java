@@ -1,15 +1,19 @@
 package info.colinhan.mindmark.model;
 
 import info.colinhan.mindmark.processor.ModelTraveller;
+import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Getter
-public class MMModel {
+public class MMModel implements MMBase {
     private final String name;
     private final List<MMDirective> directives = new ArrayList<>();
     private final List<MMNode> nodes = new ArrayList<>();
@@ -64,5 +68,17 @@ public class MMModel {
 
     public void accept(ModelTraveller traveller) {
         MMNode.travel(nodes, traveller);
+    }
+
+    @Override
+    public <T> T accept(ModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public List<? extends MMBase> children() {
+        // 合并directives和nodes
+        return Stream.concat(directives.stream(), nodes.stream())
+                .toList();
     }
 }

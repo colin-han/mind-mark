@@ -1,4 +1,4 @@
 package info.colinhan.mindmark.model;
 
-public class MMDirective {
+public abstract class MMDirective implements MMBase {
 }

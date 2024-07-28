@@ -1,6 +1,7 @@
 package info.colinhan.mindmark.model;
 
 import info.colinhan.mindmark.util.MindMarkParseException;
+import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -8,9 +9,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 @Getter
-public class MMToggle {
+public class MMToggle implements MMBase {
     private static final Pattern TOGGLE_PATTERN = Pattern.compile("(\\w+)(?:\\((.+?)\\))?");
     private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\s*(\\w+|\"[^\"]+\")\\s*");
     private final String name;
@@ -63,5 +65,15 @@ public class MMToggle {
                     .forEach(toggles::add);
         }
         return toggles;
+    }
+
+    @Override
+    public <T> T accept(ModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public List<? extends MMBase> children() {
+        return List.of();
     }
 }

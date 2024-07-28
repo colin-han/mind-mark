@@ -1,13 +1,16 @@
 package info.colinhan.mindmark.model;
 
 import info.colinhan.mindmark.util.MindMarkParseException;
+import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 @Getter
-public class MMEstimation {
+public class MMEstimation implements MMBase {
     private static final Pattern PATTERN = Pattern.compile(
             "(\\d+(?:\\.\\d+)?)\\s*(h|d|w|hours?|days?|weeks?)",
             Pattern.CASE_INSENSITIVE
@@ -79,5 +82,15 @@ public class MMEstimation {
 
     public boolean isZero() {
         return this.value == 0;
+    }
+
+    @Override
+    public <T> T accept(ModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public List<? extends MMBase> children() {
+        return List.of();
     }
 }

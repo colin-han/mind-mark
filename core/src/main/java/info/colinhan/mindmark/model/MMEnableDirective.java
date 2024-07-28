@@ -1,9 +1,11 @@
 package info.colinhan.mindmark.model;
 
+import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -20,5 +22,15 @@ public class MMEnableDirective extends MMDirective {
         return new MMEnableDirective(Stream.of(items)
                 .map(MMToggle::parse)
                 .toList());
+    }
+
+    @Override
+    public <T> T accept(ModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public List<? extends MMBase> children() {
+        return Collections.unmodifiableList(toggles);
     }
 }

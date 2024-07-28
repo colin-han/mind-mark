@@ -1,6 +1,10 @@
 package info.colinhan.mindmark.model;
 
+import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
+
+import java.util.List;
+import java.util.stream.Stream;
 
 @Getter
 public class MMMacroDirective extends MMDirective {
@@ -14,5 +18,15 @@ public class MMMacroDirective extends MMDirective {
 
     public static MMDirective parse(String line) {
         return new MMMacroDirective("fake", null);
+    }
+
+    @Override
+    public <T> T accept(ModelVisitor<T> visitor) {
+        return visitor.visit(this);
+    }
+
+    @Override
+    public List<? extends MMBase> children() {
+        return List.of(expression);
     }
 }
