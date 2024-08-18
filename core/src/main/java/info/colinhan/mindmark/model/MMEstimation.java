@@ -5,6 +5,7 @@ import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -92,5 +93,35 @@ public class MMEstimation implements MMBase {
     @Override
     public List<? extends MMBase> children() {
         return List.of();
+    }
+
+    public record EstimationItem (double value, MMEstimationUnit unit) {}
+
+    public List<EstimationItem> split() {
+        List<EstimationItem> result = new ArrayList<>();
+        double hours = this.getHours();
+        if (hours >= MMEstimationUnit.WEEK.getHours()) {
+            int weeks = Math.floorDiv((int) hours, MMEstimationUnit.WEEK.getHours());
+            result.add(new EstimationItem(
+                    weeks,
+                    MMEstimationUnit.WEEK
+            ));
+            hours = hours - weeks * MMEstimationUnit.WEEK.getHours();
+        }
+        if (hours >= MMEstimationUnit.DAY.getHours()) {
+            int days = Math.floorDiv((int) hours, MMEstimationUnit.DAY.getHours());
+            result.add(new EstimationItem(
+                    days,
+                    MMEstimationUnit.DAY
+            ));
+            hours = hours - days * MMEstimationUnit.DAY.getHours();
+        }
+        if (hours > 0) {
+            result.add(new EstimationItem(
+                    hours,
+                    MMEstimationUnit.HOUR
+            ));
+        }
+        return result;
     }
 }

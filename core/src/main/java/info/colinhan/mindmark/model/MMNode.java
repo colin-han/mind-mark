@@ -21,7 +21,7 @@ public class MMNode implements MMBase {
     private final List<String> assignees = new ArrayList<>();
     private final List<MMNode> children = new ArrayList<>();
     private String titlePrefix = "";
-    private String titlePostfix = "";
+    private String titleSuffix = "";
     @Setter
     private String className;
     @Setter
@@ -62,12 +62,12 @@ public class MMNode implements MMBase {
     }
 
     public MMNode withTitlePrefix(String prefix) {
-        this.titlePrefix = prefix + this.titlePrefix + " ";
+        this.titlePrefix = prefix + this.titlePrefix;
         return this;
     }
 
-    public MMNode withTitlePostfix(String postfix) {
-        this.titlePostfix = this.titlePostfix + " " + postfix;
+    public MMNode withTitleSuffix(String postfix) {
+        this.titleSuffix = this.titleSuffix + postfix;
         return this;
     }
 
@@ -96,7 +96,7 @@ public class MMNode implements MMBase {
     }
 
     public String getText() {
-        return this.titlePrefix + this.title + this.titlePostfix;
+        return this.titlePrefix + this.title + this.titleSuffix;
     }
 
     static List<MMNode> findDescendant(Function<MMNode, Boolean> filter, List<MMNode> nodes) {

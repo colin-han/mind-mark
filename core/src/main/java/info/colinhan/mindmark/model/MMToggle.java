@@ -13,7 +13,7 @@ import java.util.regex.Pattern;
 @Getter
 public class MMToggle implements MMBase {
     private static final Pattern TOGGLE_PATTERN = Pattern.compile("(\\w+)(?:\\((.+?)\\))?");
-    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\s*(\\w+|\"[^\"]+\")\\s*");
+    private static final Pattern PARAMETER_PATTERN = Pattern.compile("\\s*(?:\"((?:[^\"]|\"\")*)\"|(\\w+))\\s*");
     private final String name;
     private final List<String> parameters = new ArrayList<>();
 
@@ -36,7 +36,13 @@ public class MMToggle implements MMBase {
         var parameterMatcher = PARAMETER_PATTERN.matcher(parameters);
         var result = new ArrayList<String>();
         while (parameterMatcher.find()) {
-            result.add(parameterMatcher.group(1));
+            String quotedContent = parameterMatcher.group(1);
+            String word = parameterMatcher.group(2);
+            if (quotedContent != null) {
+                result.add(quotedContent.replace("\"\"", "\""));
+            } else if (word != null) {
+                result.add(word);
+            }
         }
         return new MMToggle(matcher.group(1), result);
     }

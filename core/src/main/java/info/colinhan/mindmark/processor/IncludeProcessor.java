@@ -6,8 +6,6 @@ import info.colinhan.mindmark.model.MMModel;
 import info.colinhan.mindmark.model.MMNode;
 import info.colinhan.mindmark.util.MindMarkParseException;
 
-import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 

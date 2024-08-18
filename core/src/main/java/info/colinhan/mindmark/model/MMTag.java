@@ -4,7 +4,6 @@ import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Getter
 public class MMTag implements MMBase {
