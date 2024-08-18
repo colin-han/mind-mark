@@ -24,4 +24,9 @@ public class MMStatementStringNode extends MMStatementNode {
     public List<? extends MMBase> children() {
         return List.of();
     }
+
+    @Override
+    public MMStatementNode deepClone() {
+        return new MMStatementStringNode(text);
+    }
 }

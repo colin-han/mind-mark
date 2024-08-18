@@ -34,6 +34,10 @@ class IncludeProcessorTest {
                     @include Cards(#M3)""");
         IncludeProcessor.applyTo(model);
         assertEquals(2, model.findDescendant("Tech Research Tasks").get(0).getChildCount());
+        assertNotEquals(
+                model.getNode(0).findDescendant("Story A.2").get(0),
+                model.getNode(1).getChild(0)
+        );
         assertEquals(0, model.findDescendant("Tech Design Cards").get(0).getChildCount());
     }
 }

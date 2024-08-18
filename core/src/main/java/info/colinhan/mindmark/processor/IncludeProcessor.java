@@ -37,7 +37,11 @@ public class IncludeProcessor {
     }
 
     private void applyDirective(MMNode node, MMIncludeDirective directive) {
-        node.getChildren().addAll(findNodes(directive));
+        node.getChildren().addAll(
+                findNodes(directive).stream()
+                        .map(MMNode::deepClone)
+                        .toList()
+        );
     }
 
     private List<? extends MMNode> findNodes(MMIncludeDirective includeDirective) {

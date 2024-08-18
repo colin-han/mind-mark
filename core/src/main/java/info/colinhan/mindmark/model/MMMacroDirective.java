@@ -29,4 +29,9 @@ public class MMMacroDirective extends MMDirective {
     public List<? extends MMBase> children() {
         return List.of(expression);
     }
+
+    @Override
+    public MMDirective deepClone() {
+        return new MMMacroDirective(this.name, this.expression.deepClone());
+    }
 }

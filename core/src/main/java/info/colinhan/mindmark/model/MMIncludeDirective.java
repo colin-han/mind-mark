@@ -40,4 +40,9 @@ public class MMIncludeDirective extends MMDirective {
     public List<? extends MMBase> children() {
         return List.of();
     }
+
+    @Override
+    public MMDirective deepClone() {
+        return new MMIncludeDirective(ancestorNode, filter);
+    }
 }

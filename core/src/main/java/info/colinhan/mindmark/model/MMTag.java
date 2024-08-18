@@ -8,10 +8,15 @@ import java.util.List;
 @SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class MMTag implements MMBase {
-    private final String name;
+    private String name;
 
     public MMTag(String name) {
         this.name = name;
+    }
+
+    public MMTag withName(String name) {
+        this.name = name;
+        return this;
     }
 
     @Override
@@ -27,5 +32,9 @@ public class MMTag implements MMBase {
     @Override
     public List<? extends MMBase> children() {
         return List.of();
+    }
+
+    public MMTag deepClone() {
+        return new MMTag(this.name);
     }
 }

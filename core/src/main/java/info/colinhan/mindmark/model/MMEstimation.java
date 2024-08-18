@@ -124,4 +124,8 @@ public class MMEstimation implements MMBase {
         }
         return result;
     }
+
+    public MMEstimation deepClone() {
+        return MMEstimation.hour(this.getHours());
+    }
 }

@@ -19,4 +19,12 @@ public class MMExpression implements MMBase {
     public List<? extends MMBase> children() {
         return Collections.unmodifiableList(nodes);
     }
+
+    public MMExpression deepClone() {
+        MMExpression expression = new MMExpression();
+        expression.nodes.addAll(nodes.stream()
+                .map(MMStatementNode::deepClone)
+                .toList());
+        return expression;
+    }
 }

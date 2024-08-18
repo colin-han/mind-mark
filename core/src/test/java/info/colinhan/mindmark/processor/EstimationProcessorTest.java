@@ -22,8 +22,8 @@ class EstimationProcessorTest {
         EstimationProcessor.applyTo(model);
 
         assertEquals("Cards", model.getNode(0).getText());
-        assertEquals("⏰ 0.5 days", model.getNode(0).getTag(0).getName());
-        assertEquals("⏰ 5 days", model.getNode(0).getChild(0).getTag(0).getName());
+        assertEquals("⏰ 0.5 days", model.getNode(0).getLabel(0));
+        assertEquals("⏰ 5 days", model.getNode(0).getChild(0).getLabel(0));
     }
 
     @Test
@@ -41,8 +41,8 @@ class EstimationProcessorTest {
         EstimationProcessor.applyTo(model);
 
         assertEquals("Cards", model.getNode(0).getText());
-        assertEquals("(0.1 weeks)", model.getNode(0).getTag(0).getName());
-        assertEquals("(1 week)", model.getNode(0).getChild(0).getTag(0).getName());
+        assertEquals("(0.1 weeks)", model.getNode(0).getLabel(0));
+        assertEquals("(1 week)", model.getNode(0).getChild(0).getLabel(0));
     }
 
     @Test

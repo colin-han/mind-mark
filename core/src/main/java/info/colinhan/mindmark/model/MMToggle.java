@@ -60,4 +60,8 @@ public class MMToggle implements MMBase {
     public List<? extends MMBase> children() {
         return List.of();
     }
+
+    public MMToggle deepClone() {
+        return new MMToggle(this.name, new ArrayList<>(this.parameters));
+    }
 }

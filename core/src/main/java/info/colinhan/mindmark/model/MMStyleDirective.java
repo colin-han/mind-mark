@@ -62,4 +62,11 @@ public class MMStyleDirective extends MMDirective {
     public List<? extends MMBase> children() {
         return List.of();
     }
+
+    @Override
+    public MMDirective deepClone() {
+        MMStyleDirective directive = new MMStyleDirective(this.selector);
+        directive.styles.putAll(this.styles);
+        return directive;
+    }
 }

@@ -1,9 +1,6 @@
 package info.colinhan.mindmark;
 
-import info.colinhan.mindmark.processor.AutoNumberProcessor;
-import info.colinhan.mindmark.processor.IncludeProcessor;
-import info.colinhan.mindmark.processor.StyleProcessor;
-import info.colinhan.mindmark.processor.SumEstimationProcessor;
+import info.colinhan.mindmark.processor.*;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Path;
@@ -15,10 +12,11 @@ class XMindConverterTest {
         var model = MindMarkParser.parseModel("Root", """
               @style #TechResearch fill:#95FF9595,stroke-color:#460101,stroke-width:4,color:#460101
               @macro #M?=max(/M#(\\d+)/g)
+              @enable estimation(useShortUnit atBeginning "(%s) ")
               
               Cards #M?
                 @enable AutoNumber, SumEstimation
-                Epic A #M?
+                Epic A #M? @me
                   Story A.1 #M1 &3d
                   Story A.2 #M1 &2d
                     TechResearch A.2.1 #TechResearch
@@ -39,10 +37,16 @@ class XMindConverterTest {
                   @include Cards(#M2)
                 M3 实现更多的功能
                   @include Cards(#M3)""");
-        StyleProcessor.applyTo(model);
         AutoNumberProcessor.applyTo(model);
         SumEstimationProcessor.applyTo(model);
+        StyleProcessor.applyTo(model);
+
         IncludeProcessor.applyTo(model);
+
+        TagProcessor.applyTo(model);
+        AssigneeProcessor.applyTo(model);
+        EstimationProcessor.applyTo(model);
+
         var converter = new XMindConverter();
         converter.convert(model, Path.of("./tmp"));
     }

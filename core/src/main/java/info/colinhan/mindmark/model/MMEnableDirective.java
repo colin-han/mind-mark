@@ -33,4 +33,11 @@ public class MMEnableDirective extends MMDirective {
     public List<? extends MMBase> children() {
         return Collections.unmodifiableList(toggles);
     }
+
+    @Override
+    public MMDirective deepClone() {
+        return new MMEnableDirective(toggles.stream()
+                .map(MMToggle::deepClone)
+                .toList());
+    }
 }

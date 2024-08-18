@@ -3,6 +3,7 @@ package info.colinhan.mindmark;
 import info.colinhan.mindmark.model.MMModel;
 import info.colinhan.mindmark.model.MMNode;
 import info.colinhan.mindmark.processor.StyleProcessor;
+import info.colinhan.mindmark.util.MindMarkParseException;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -20,8 +21,9 @@ public class XMindConverter {
         try {
             deleteDirectoryRecursively(tmp);
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MindMarkParseException("Failed to clear temporal folder", e);
         }
+        //noinspection ResultOfMethodCallIgnored
         tmp.toFile().mkdirs();
 
         copyTemplateToTemp(tmp);
@@ -48,8 +50,11 @@ public class XMindConverter {
     }
 
     private void zipOutput(Path folder, Path outputFile) {
-        try (ZipOutputStream zos = new ZipOutputStream(Files.newOutputStream(outputFile))) {
-            Files.walk(folder)
+        try (
+                var zos = new ZipOutputStream(Files.newOutputStream(outputFile));
+                var walker = Files.walk(folder)
+        ) {
+            walker
                     .filter(path -> !Files.isDirectory(path))
                     .forEach(path -> {
                         ZipEntry zipEntry = new ZipEntry(folder.relativize(path).toString());
@@ -59,17 +64,19 @@ public class XMindConverter {
                             zos.closeEntry();
                         } catch (IOException e) {
                             System.err.println("Failed to zip file: " + path);
-                            e.printStackTrace();
+                            throw new MindMarkParseException("Failed to zip file: " + path, e);
                         }
                     });
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MindMarkParseException("Failed to zip!", e);
         }
     }
 
     private void generateContent(Path tempPath, MMModel model) {
-        try {
-            var content = XMindConverter.class.getClassLoader().getResourceAsStream("templates/xmind/content.json");
+        try (var content = XMindConverter.class.getClassLoader().getResourceAsStream("templates/xmind/content.json")) {
+            if (content == null) {
+                throw new MindMarkParseException("Template not found!");
+            }
             var json = new JSONArray(new String(content.readAllBytes(), StandardCharsets.UTF_8));
             var root = (JSONObject) json.get(0);
             generateStyles(model, root);
@@ -131,15 +138,7 @@ public class XMindConverter {
             child.put("class", node.getClassName());
         }
         JSONArray labels = new JSONArray();
-        if (node.getEstimation() != null) {
-            labels.put("⏱ " + node.getEstimation());
-        }
-        node.getAssignees().forEach(
-                a -> labels.put("🙍‍" + a)
-        );
-        node.getTags().forEach(
-                t -> labels.put("🏷 " + t)
-        );
+        node.getLabels().forEach(labels::put);
         if (!labels.isEmpty()) {
             child.put("labels", labels);
         }
@@ -158,7 +157,7 @@ public class XMindConverter {
             copyTemplateTo(tempFolder, "manifest.json");
             copyTemplateTo(tempFolder, "metadata.json");
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new MindMarkParseException("Failed to copy template file!", e);
         }
     }
 

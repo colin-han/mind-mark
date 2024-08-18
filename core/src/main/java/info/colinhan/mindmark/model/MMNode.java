@@ -20,6 +20,8 @@ public class MMNode implements MMBase {
     private final List<MMDirective> directives = new ArrayList<>();
     private final List<String> assignees = new ArrayList<>();
     private final List<MMNode> children = new ArrayList<>();
+    private final List<String> labels = new ArrayList<>();
+
     private String titlePrefix = "";
     private String titleSuffix = "";
     @Setter
@@ -44,6 +46,15 @@ public class MMNode implements MMBase {
     public MMNode addTag(MMTag tag) {
         tags.add(tag);
         return this;
+    }
+
+    public MMNode addLabel(String label) {
+        labels.add(label);
+        return this;
+    }
+
+    public String getLabel(int index) {
+        return labels.get(index);
     }
 
     public MMNode addDirective(MMDirective directive) {
@@ -147,5 +158,18 @@ public class MMNode implements MMBase {
                 directives.stream(),
                 children.stream()
         ).flatMap(s -> s).toList();
+    }
+
+    public MMNode deepClone() {
+        MMNode clone = new MMNode(indent, title, estimation == null ? null : estimation.deepClone());
+        clone.tags.addAll(tags.stream().map(MMTag::deepClone).toList());
+        clone.directives.addAll(directives.stream().map(MMDirective::deepClone).toList());
+        clone.assignees.addAll(List.copyOf(assignees));
+        clone.children.addAll(children.stream().map(MMNode::deepClone).toList());
+        clone.labels.addAll(List.copyOf(labels));
+        clone.titlePrefix = titlePrefix;
+        clone.titleSuffix = titleSuffix;
+        clone.className = className;
+        return clone;
     }
 }

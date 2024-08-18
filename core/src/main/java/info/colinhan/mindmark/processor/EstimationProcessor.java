@@ -120,7 +120,7 @@ public class EstimationProcessor {
             if (estimation != null) {
                 var text = estimationToText(estimation, estimationSetting);
                 if (estimationSetting.position().equals(Position.asLabel)) {
-                    node.getTags().add(new MMTag(text));
+                    node.addLabel(text);
                 } else if (estimationSetting.position().equals(Position.atBeginningOfTitle)) {
                     node.withTitlePrefix(text);
                 } else if (estimationSetting.position().equals(Position.atEndOfTitle)) {
