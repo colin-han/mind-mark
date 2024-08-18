@@ -8,8 +8,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
+@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class MMEstimation implements MMBase {
     private static final Pattern PATTERN = Pattern.compile(

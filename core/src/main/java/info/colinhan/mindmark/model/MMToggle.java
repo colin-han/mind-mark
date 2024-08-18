@@ -7,7 +7,6 @@ import lombok.Getter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 @Getter
@@ -28,11 +27,16 @@ public class MMToggle implements MMBase {
             throw new MindMarkParseException("Invalid toggle format: " + text);
         }
 
+        String functionName = matcher.group(1);
         if (matcher.group(2) == null) {
-            return new MMToggle(matcher.group(1), List.of());
+            return new MMToggle(functionName, List.of());
         }
 
-        var parameters = matcher.group(2);
+        var result = parseParameters(matcher.group(2));
+        return new MMToggle(functionName, result);
+    }
+
+    private static ArrayList<String> parseParameters(String parameters) {
         var parameterMatcher = PARAMETER_PATTERN.matcher(parameters);
         var result = new ArrayList<String>();
         while (parameterMatcher.find()) {
@@ -44,32 +48,7 @@ public class MMToggle implements MMBase {
                 result.add(word);
             }
         }
-        return new MMToggle(matcher.group(1), result);
-    }
-
-    public static List<MMToggle> findToggle(MMNode node, List<MMNode> ancestors, Predicate<MMToggle> finder) {
-        List<MMToggle> toggles = new ArrayList<>();
-        node.getDirectives().stream()
-                .filter(d -> d instanceof MMEnableDirective)
-                .flatMap(d -> {
-                    var directive = (MMEnableDirective) d;
-                    return directive.getToggles().stream()
-                            .filter(finder);
-                })
-                .forEach(toggles::add);
-
-        for (int i = ancestors.size() - 1; i >= 0; i--) {
-            var ancestor = ancestors.get(i);
-            ancestor.getDirectives().stream()
-                    .filter(d -> d instanceof MMEnableDirective)
-                    .flatMap(d -> {
-                        var directive = (MMEnableDirective) d;
-                        return directive.getToggles().stream()
-                                .filter(finder);
-                    })
-                    .forEach(toggles::add);
-        }
-        return toggles;
+        return result;
     }
 
     @Override

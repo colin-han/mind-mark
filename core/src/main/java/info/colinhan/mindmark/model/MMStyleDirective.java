@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
-import java.util.stream.Stream;
 
 @Getter
 public class MMStyleDirective extends MMDirective {
@@ -28,10 +27,10 @@ public class MMStyleDirective extends MMDirective {
         }
         var directive = new MMStyleDirective(matcher.group(1));
         var styles = matcher.group(2).split("\\s*,\\s*");
-        for (int i = 0; i < styles.length; i++) {
-            var keyValue = STYLE_PATTERN.matcher(styles[i]);
+        for (String style : styles) {
+            var keyValue = STYLE_PATTERN.matcher(style);
             if (!keyValue.find()) {
-                throw new MindMarkParseException("Invalid style syntax: " + styles[i]);
+                throw new MindMarkParseException("Invalid style syntax: " + style);
             }
             directive.styles.put(keyValue.group(1).toLowerCase(), keyValue.group(2));
         }

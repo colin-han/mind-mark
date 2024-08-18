@@ -7,9 +7,9 @@ import java.text.DecimalFormat;
 import java.util.List;
 
 public class EstimationProcessor {
-    private static DecimalFormat decimalFormat = new DecimalFormat("0.##");
+    private static final DecimalFormat decimalFormat = new DecimalFormat("0.##");
 
-    public static class Position extends NamedEnum<Position> {
+    public static class Position extends NamedEnum {
         public static Position asLabel = define(Position.class, "asLabel");
         public static Position atBeginningOfTitle = define(Position.class, "atBeginningOfTitle", "atBeginning", "atBegin");
         public static Position atEndOfTitle = define(Position.class, "atEndOfTitle", "atEnd");
@@ -22,7 +22,7 @@ public class EstimationProcessor {
         }
     }
 
-    public static class Unit extends NamedEnum<Unit> {
+    public static class Unit extends NamedEnum {
         public static Unit useMinUnit = define(Unit.class, "useMinUnit", "minUnit", "useMinimumUnit", "minimumUnit");
         public static Unit useMaxUnit = define(Unit.class, "useMaxUnit", "maxUnit", "useMaximumUnit", "maximumUnit");
         public static Unit useMixinUnit = define(Unit.class, "useMixinUnit", "mixinUnit", "useMixUnit", "mixUnit");
@@ -38,7 +38,7 @@ public class EstimationProcessor {
         }
     }
 
-    public static class UnitStyle extends NamedEnum<UnitStyle> {
+    public static class UnitStyle extends NamedEnum {
         public static UnitStyle useLongUnit = define(UnitStyle.class, "useLongUnit", "longUnit");
         public static UnitStyle useShortUnit = define(UnitStyle.class, "useShortUnit", "shortUnit");
         public static UnitStyle useSingularUnit = define(UnitStyle.class, "useSingularUnit", "singularUnit");

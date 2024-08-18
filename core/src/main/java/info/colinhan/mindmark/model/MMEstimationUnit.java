@@ -37,13 +37,6 @@ public enum MMEstimationUnit {
         return null;
     }
 
-    private static String doubleToString(double value1) {
-        long longValue = Math.round(value1);
-        return value1 == longValue
-                ? String.valueOf(longValue)
-                : String.valueOf(value1);
-    }
-
     public double toHours(double value) {
         return value * this.hours;
     }

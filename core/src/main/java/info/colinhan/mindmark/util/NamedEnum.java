@@ -5,8 +5,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class NamedEnum<T extends NamedEnum<?>> {
-    private record NamedEnumClass<T2 extends NamedEnum<?>>(String name, Constructor<T2> ctor, Map<String, T2> values) {}
+public abstract class NamedEnum {
+    private record NamedEnumClass<T2 extends NamedEnum>(String name, Constructor<T2> ctor, Map<String, T2> values) {}
     private static final Map<Class<?>, NamedEnumClass<?>> classMap = new HashMap<>();
 
     protected final String[] names;
@@ -15,7 +15,7 @@ public abstract class NamedEnum<T extends NamedEnum<?>> {
     }
 
     @SuppressWarnings("unchecked")
-    protected static <R extends NamedEnum<?>> R define(Class<R> clazz, String... names) {
+    protected static <R extends NamedEnum> R define(Class<R> clazz, String... names) {
         try {
             var enumClass = (NamedEnumClass<R>) classMap.computeIfAbsent(clazz, c -> {
                 try {
@@ -39,7 +39,7 @@ public abstract class NamedEnum<T extends NamedEnum<?>> {
     }
 
     @SuppressWarnings("unchecked")
-    protected static <R extends NamedEnum<?>> R find(Class<R> clazz, String name) {
+    protected static <R extends NamedEnum> R find(Class<R> clazz, String name) {
         var enumClass = (NamedEnumClass<R>) classMap.get(clazz);
         if (enumClass == null) {
             throw new IllegalArgumentException("Class " + clazz + " is not a NamedEnum");

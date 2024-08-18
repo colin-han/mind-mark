@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class MMExpression implements MMBase {
+    // TODO: Implement macro directive.
     private final List<MMStatementNode> nodes = new ArrayList<>();
 
     @Override

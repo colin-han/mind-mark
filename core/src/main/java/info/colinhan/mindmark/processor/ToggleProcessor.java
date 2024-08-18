@@ -42,7 +42,7 @@ public abstract class ToggleProcessor<T> {
 
     protected T calcNewValue(boolean toggle, T currentValue, int i) {
         return currentValue;
-    };
+    }
 
     protected void applyToggle(MMNode node, T currentValue) {
 

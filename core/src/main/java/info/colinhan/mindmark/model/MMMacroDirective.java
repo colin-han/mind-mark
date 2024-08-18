@@ -4,10 +4,10 @@ import info.colinhan.mindmark.visitor.ModelVisitor;
 import lombok.Getter;
 
 import java.util.List;
-import java.util.stream.Stream;
 
 @Getter
 public class MMMacroDirective extends MMDirective {
+    // TODO: Implement macro directive.
     private final String name;
     private final MMExpression expression;
 

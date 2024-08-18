@@ -8,6 +8,7 @@ import java.util.stream.Stream;
 
 @Getter
 public class MMStatementStringNode extends MMStatementNode {
+    // TODO: Implement macro directive.
     private final String text;
 
     public MMStatementStringNode(String text) {

@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.util.List;
 
+@SuppressWarnings("ClassCanBeRecord")
 @Getter
 public class MMTag implements MMBase {
     private final String name;
