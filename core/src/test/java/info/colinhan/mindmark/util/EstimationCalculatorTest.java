@@ -1,7 +1,6 @@
 package info.colinhan.mindmark.util;
 
 import info.colinhan.mindmark.model.MMEstimation;
-import info.colinhan.mindmark.model.MMEstimationUnit;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

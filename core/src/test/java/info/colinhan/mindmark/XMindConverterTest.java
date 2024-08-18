@@ -1,6 +1,5 @@
 package info.colinhan.mindmark;
 
-import info.colinhan.mindmark.model.MMNode;
 import info.colinhan.mindmark.processor.AutoNumberProcessor;
 import info.colinhan.mindmark.processor.IncludeProcessor;
 import info.colinhan.mindmark.processor.StyleProcessor;
